@@ -50,6 +50,7 @@ module Shoppe
 
     # Before validation, set the permalink if we don't already have one
     before_validation { self.permalink = name.parameterize if permalink.blank? && name.is_a?(String) }
+    before_validation { self.sku = SecureRandom.uuid[0..7] if sku.blank? }
 
     # All active products
     scope :active, -> { where(active: true) }
