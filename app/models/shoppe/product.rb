@@ -43,14 +43,13 @@ module Shoppe
     end
     validates :name, presence: true
     validates :permalink, presence: true, uniqueness: true, permalink: true
-    validates :sku, presence: true
+    #validates :sku, presence: true
     validates :weight, numericality: true
     validates :price, numericality: true
     validates :cost_price, numericality: true, allow_blank: true
 
     # Before validation, set the permalink if we don't already have one
     before_validation { self.permalink = name.parameterize if permalink.blank? && name.is_a?(String) }
-    before_validation { self.sku = SecureRandom.uuid[0..7] if sku.blank? }
 
     # All active products
     scope :active, -> { where(active: true) }
