@@ -134,6 +134,15 @@ module Shoppe
       attachments.for('data_sheet')
     end
 
+    # Jurbat additions
+    def related_products
+      pr = (product_attributes.where(key: '!related').first.try(:value) || "").split(",")
+      return [] if pr.blank?
+      self.class.find(pr)
+    end
+
+
+
     # Search for products which include the given attributes and return an active record
     # scope of these products. Chainable with other scopes and with_attributes methods.
     # For example:
