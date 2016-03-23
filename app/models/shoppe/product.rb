@@ -136,9 +136,17 @@ module Shoppe
 
     # Jurbat additions
     def related_products
-      pr = (product_attributes.where(key: '!related').first.try(:value) || "").split(",")
-      return [] if pr.blank?
-      self.class.find(pr)
+      related = related_entry
+      return [] unless related
+
+      pr_ids = (related.try(:value) || "").split(",")
+      return [] if pr_ids.blank?
+      result = self.class.where(id: pr_ids)
+      if result.length != pr_ids.length
+        # correct if some ids removed
+        related.update_attribute(:value, result.map(&:id).join(','))
+      end
+      result
     end
 
 
@@ -217,6 +225,11 @@ module Shoppe
 
     def has_at_least_one_product_category
       errors.add(:base, 'must add at least one product category') if product_categories.blank?
+    end
+
+
+    def related_entry
+      product_attributes.where(key: '!related').first
     end
   end
 end
