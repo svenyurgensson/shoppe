@@ -22,4 +22,18 @@ class Shoppe::AttachmentUploader < CarrierWave::Uploader::Base
   version :thumb, if: :image? do
     process resize_and_pad: [200, 200]
   end
+
+  process :watermark
+
+  def watermark
+    manipulate! do |img|
+      mark = MiniMagick::Image.open("#{Rails.root}/public/watermark.png")
+      img = img.composite(mark) do |c|
+        c.gravity 'center'
+        c.geometry '800x'
+        c.compose 'Over'
+      end
+      #img = img.watermark(mark, 0.25, 0, 'southeast')
+    end
+  end
 end
