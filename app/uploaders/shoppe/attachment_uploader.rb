@@ -9,23 +9,34 @@ class Shoppe::AttachmentUploader < CarrierWave::Uploader::Base
   end
 
   # Returns true if the file is an image
-  def image?(_new_file)
+  def image?(file)
     file.content_type.include? 'image'
   end
 
   # Returns true if the file is not an image
-  def not_image?(_new_file)
+  def not_image?(file)
     !file.content_type.include? 'image'
-  end
-
-  # Create different versions of your uploaded files:
-  version :thumb, if: :image? do
-    process resize_and_pad: [200, 200]
   end
 
   process :watermark
 
+  # Create different versions of your uploaded files:
+  version :thumb, if: :image? do
+    process resize_and_pad: [200, 200]
+    #process :watermark
+  end
+
+  def filename
+    "#{secure_token}.#{file.extension}" if original_filename.present?
+  end
+
+  def secure_token
+    var = :"@#{mounted_as}_secure_token"
+    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.uuid)
+  end
+
   def watermark
+    return unless file.content_type.include? 'image'
     manipulate! do |img|
       mark = MiniMagick::Image.open("#{Rails.root}/public/watermark.png")
       img = img.composite(mark) do |c|
@@ -33,7 +44,6 @@ class Shoppe::AttachmentUploader < CarrierWave::Uploader::Base
         c.geometry '800x'
         c.compose 'Over'
       end
-      #img = img.watermark(mark, 0.25, 0, 'southeast')
     end
   end
 end
