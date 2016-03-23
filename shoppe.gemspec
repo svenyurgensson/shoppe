@@ -33,6 +33,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'net-ssh', '~> 3.0.1'
   s.add_dependency 'mini_magick', '~> 4.2.7'
 
+  s.add_dependency 'friendly_id', '>= 5.1.0'
+
   s.add_development_dependency 'coffee-rails', '~> 4'
   s.add_development_dependency 'sass-rails', '~> 4.0'
   s.add_development_dependency 'sqlite3', '~> 1.3'

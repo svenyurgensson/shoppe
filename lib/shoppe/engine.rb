@@ -49,6 +49,8 @@ module Shoppe
 
       # Load default navigation
       require 'shoppe/default_navigation'
+
+      require 'shoppe/friendly_id'
     end
 
     generators do

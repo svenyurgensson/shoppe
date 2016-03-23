@@ -3,6 +3,8 @@ require 'globalize'
 
 module Shoppe
   class Product < ActiveRecord::Base
+    include FriendlyId
+
     self.table_name = 'shoppe_products'
 
     # Add dependencies for products
@@ -49,7 +51,8 @@ module Shoppe
     validates :cost_price, numericality: true, allow_blank: true
 
     # Before validation, set the permalink if we don't already have one
-    before_validation { self.permalink = name.parameterize if permalink.blank? && name.is_a?(String) }
+    #before_validation { self.permalink = name.parameterize if permalink.blank? && name.is_a?(String) }
+    friendly_id :slug_candidates, :use => [:slugged, :finders]
 
     # All active products
     scope :active, -> { where(active: true) }
@@ -60,6 +63,18 @@ module Shoppe
     # Localisations
     translates :name, :permalink, :description, :short_description
     scope :ordered, -> { includes(:translations).order(:name) }
+
+
+    def slug_candidates
+      [
+        :name,
+        [:name, :sku]
+      ]
+    end
+
+    def should_generate_new_friendly_id?
+      name_changed? || super
+    end
 
     def attachments=(attrs)
       if attrs['default_image']['file'].present? then attachments.build(attrs['default_image']) end

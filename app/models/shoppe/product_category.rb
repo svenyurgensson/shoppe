@@ -54,6 +54,10 @@ module Shoppe
       parent.hierarchy_array.concat [self]
     end
 
+    def hierarchy_names
+      hierarchy_array.map(&:name)
+    end
+
     # Attachment with the role image
     #
     # @return [String]
