@@ -37,6 +37,8 @@ class Shoppe::AttachmentUploader < CarrierWave::Uploader::Base
 
   def watermark
     return unless file.content_type.include? 'image'
+    return unless File.readable?("#{Rails.root}/public/watermark.png")
+
     manipulate! do |img|
       mark = MiniMagick::Image.open("#{Rails.root}/public/watermark.png")
       img = img.composite(mark) do |c|
