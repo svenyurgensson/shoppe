@@ -29,7 +29,10 @@
           - for product in products
             %tr
               %td= product.sku
-              %td= link_to product.name, [:edit, product]
+              %td
+                = link_to product.name, [:edit, product]
+                - if product.default_image
+                  = image_tag product.default_image.file.thumb.url, class: 'image-on-fixed-position'
               - if product.has_variants?
                 %td.table{:colspan => 2}
                   %table.data

@@ -18,7 +18,7 @@ class Shoppe::AttachmentUploader < CarrierWave::Uploader::Base
     !file.content_type.include? 'image'
   end
 
-  process :watermark
+  #process :watermark
 
   # Create different versions of your uploaded files:
   version :thumb, if: :image? do
