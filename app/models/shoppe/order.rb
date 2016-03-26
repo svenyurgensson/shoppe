@@ -90,6 +90,13 @@ module Shoppe
       order_items.inject(0) { |t, i| t + i.quantity }
     end
 
+    # Return the total cost of items in the order?
+    #
+    # @return [Integer]
+    def total_price
+      order_items.inject(0) { |t,i| t + i.sub_total }
+    end
+
     def self.ransackable_attributes(_auth_object = nil)
       %w(id billing_postcode billing_address1 billing_address2 billing_address3 billing_address4 first_name last_name company email_address phone_number consignment_number status received_at) + _ransackers.keys
     end
