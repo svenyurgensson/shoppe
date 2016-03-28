@@ -8,6 +8,8 @@ class Shoppe::AttachmentUploader < CarrierWave::Uploader::Base
     "attachment/#{model.id}"
   end
 
+  after :remove, :delete_empty_upstream_dirs
+
   # Returns true if the file is an image
   def image?(file)
     file.content_type.include? 'image'
@@ -18,11 +20,19 @@ class Shoppe::AttachmentUploader < CarrierWave::Uploader::Base
     !file.content_type.include? 'image'
   end
 
-  #process :watermark
 
   # Create different versions of your uploaded files:
-  version :thumb, if: :image? do
-    process resize_and_pad: [300, 300]
+  version :large, if: :image? do
+    process watermark: '900x'
+    process :optimize_image
+    process resize_to_limit: [900, 800]
+  end
+
+  # Create different versions of your uploaded files:
+  version :thumb, if: :image? do # , from_version: :large
+    process :optimize_image
+    process resize_to_fill: [300, 300]
+    process watermark: '300x'
   end
 
   def filename
@@ -34,7 +44,7 @@ class Shoppe::AttachmentUploader < CarrierWave::Uploader::Base
     model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.uuid)
   end
 
-  def watermark
+  def watermark(geo = '900x')
     return unless file.content_type.include? 'image'
     return unless File.readable?("#{Rails.root}/public/watermark.png")
 
@@ -42,9 +52,27 @@ class Shoppe::AttachmentUploader < CarrierWave::Uploader::Base
       mark = MiniMagick::Image.open("#{Rails.root}/public/watermark.png")
       img = img.composite(mark) do |c|
         c.gravity 'center'
-        c.geometry '800x'
+        c.geometry geo
         c.compose 'Over'
       end
     end
   end
+
+  def optimize_image
+    manipulate! do |img|
+      img.format('JPEG')
+      img = img.auto_orient
+      img = img.quality(80)
+      img.fuzz '3%'
+      img
+    end
+  end
+
+  def delete_empty_upstream_dirs
+    path = ::File.expand_path(store_dir, root)
+    Dir.delete(path) # fails if path not empty dir
+  rescue SystemCallError
+    true # nothing, the dir is not empty
+  end
+
 end

@@ -600,6 +600,7 @@ table.data {
         position: fixed;
         left: 0px;
         top: 560px;
+        max-width: 200px;
     }
     tr {
         img.image-on-fixed-position { display: none; }
