@@ -99,6 +99,12 @@ module Shoppe
       render layout: 'shoppe/printable'
     end
 
+    def checkout
+      @order.confirm!
+      redirect_to @order
+    end
+
+
     private
 
     def safe_params

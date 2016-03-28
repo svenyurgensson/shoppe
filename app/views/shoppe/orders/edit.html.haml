@@ -2,6 +2,7 @@
 
 = content_for :header do
   %p.buttons
+    = link_to "Создать без оплаты", checkout_order_path, method: :post, class: 'button green'
     = link_to t('shoppe.orders.back_to_order'), @order, :class => 'button grey'
   %h2.orders "#{t('shoppe.orders.edit_order')} <b>##{@order.number}</b>"
 
