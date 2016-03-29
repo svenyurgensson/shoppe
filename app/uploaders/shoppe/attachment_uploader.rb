@@ -31,7 +31,7 @@ class Shoppe::AttachmentUploader < CarrierWave::Uploader::Base
   # Create different versions of your uploaded files:
   version :thumb, if: :image? do # , from_version: :large
     process :optimize_image
-    process resize_to_fill: [300, 300]
+    process resize_and_pad: [300, 300]
     process watermark: '300x'
   end
 
