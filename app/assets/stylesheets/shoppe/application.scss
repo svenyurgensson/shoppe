@@ -569,6 +569,7 @@ div.table {
 
 table.data {
     width:100%;
+    font-size: 110%;
     th, td { padding:10px; vertical-align:middle;}
     thead th { border:1px solid #40454D; background:#40454D; text-align:left; font-weight:normal; font-size:0.9em; color:#fff; }
     tbody td { border:1px solid #cfd4dd; background:#fff;}
@@ -588,6 +589,9 @@ table.data {
             td:last-child { border-right-width:0;}
             tr:last-child td { border-bottom-width:0;}
         }
+    }
+    .right-block {
+        float: right; margin-bottom: 20px
     }
     tbody tr.form {
         td { background:#f2f6fb;}
@@ -633,4 +637,11 @@ nav.pagination {
             text-decoration:none;
         }
     }
+}
+
+td.handle {
+    width:4%;
+    background:image-url('shoppe/move.svg') no-repeat center !important;
+    background-size:16px;
+    cursor: pointer;
 }

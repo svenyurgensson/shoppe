@@ -4,7 +4,7 @@
   = field_set_tag t('shoppe.product_category.category_details') do
     %dl
       %dt= f.label :name, t('shoppe.product_category.name')
-      %dd= f.text_field :name, :class => 'focus text', :required => true
+      %dd= f.text_field :name, :class => 'focus text'
     .splitContainer
       %dl.half
         %dt= f.label :permalink, t('shoppe.product_category.permalink')
@@ -21,7 +21,8 @@
   = field_set_tag t('shoppe.product_category.nesting.category_nesting') do
     %dl
       %dt= f.label :parent_id, t('shoppe.product_category.nesting.category_parent')
-      %dd= f.collection_select :parent_id, Shoppe::ProductCategory.except_descendants(@product_category).ordered, :id, :name, {:include_blank => t('shoppe.product_category.nesting.blank_option')}, {:class => 'chosen'}
+      - fullname = proc {|x| x.parent ? "#{x.parent.name}/#{x.name}" : x.name }
+      %dd= f.collection_select :parent_id, Shoppe::ProductCategory.except_descendants(@product_category).ordered, :id, fullname, {:include_blank => t('shoppe.product_category.nesting.blank_option')}, {:class => 'chosen'}
     %dl
       %dt= f.label :child_ids, t('shoppe.product_category.nesting.hierarchy')
       %dd
@@ -50,3 +51,11 @@
     - unless @product_category.new_record?
       %span.right= link_to t('shoppe.delete') , @product_category, :class => 'button purple', :method => :delete, :data => {:confirm => t('shoppe.product_category.delete_confirmation') }
     = f.submit t('shoppe.submit'),  :class => 'button green'
+
+
+
+
+:javascript
+  window.onload = function() {
+      window.editor = new Editor({element: document.getElementById('product_category_description')});
+  }

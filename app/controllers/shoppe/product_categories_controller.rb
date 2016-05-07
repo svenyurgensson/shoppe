@@ -4,7 +4,9 @@ module Shoppe
     before_filter { params[:id] && @product_category = Shoppe::ProductCategory.find(params[:id]) }
 
     def index
-      @product_categories_without_parent = Shoppe::ProductCategory.without_parent.ordered
+      @product_categories_without_parent = Shoppe::ProductCategory
+                                           .without_parent
+                                           .order(position: :asc)
     end
 
     def new
@@ -34,6 +36,16 @@ module Shoppe
     def destroy
       @product_category.destroy
       redirect_to :product_categories, flash: { notice: t('shoppe.product_category.destroy_notice') }
+    end
+
+    def positions
+      params[:positions].each_with_index do |cid, idx|
+        id = cid.sub(/\D+/, '').to_i
+        Shoppe::ProductCategory.find(id).update_column(:position, idx)
+      end
+      respond_to do |format|
+        format.json { render json: '{}' }
+      end
     end
 
     private

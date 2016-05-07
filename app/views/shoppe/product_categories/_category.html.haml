@@ -1,0 +1,19 @@
+%div{style: 'margin-left: #{(category.depth + 1) * 4}%', id: "cat_#{category.id}", data: {position: index, scope: category.parent.permalink} }
+  %table(style="width: 100%")
+    - if category.children.empty?
+      %tr
+        %td.handle
+        %td
+          = link_to category.name, [:edit, category]
+          .right-block
+            = link_to I18n.t('shoppe.products.products'), products_path(category_id: category.id)
+    - else
+      %tr
+        %td.handle
+        %td
+          = link_to category.name, [:edit, category]
+          .right-block
+            = link_to I18n.t('shoppe.products.products'), products_path(category_id: category.id)
+          %br
+          - category.children.each_with_index do |cat, idx|
+            = render partial: 'category', locals: {category: cat, index: idx}

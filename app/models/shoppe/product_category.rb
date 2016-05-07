@@ -7,7 +7,8 @@ module Shoppe
     # which has been referenced in the Gemfile as we can't add a dependency
     # to a branch in the .gemspec
     acts_as_nested_set  dependent: :restrict_with_exception,
-                        after_move: :set_ancestral_permalink
+                        after_move: :set_ancestral_permalink,
+                        order_column: :position
 
     self.table_name = 'shoppe_product_categories'
 
@@ -33,6 +34,7 @@ module Shoppe
 
     # Set the permalink on callback
     before_validation :set_permalink, :set_ancestral_permalink
+    before_create :set_next_position
     after_save :set_child_permalinks
 
     def attachments=(attrs)
@@ -66,6 +68,10 @@ module Shoppe
     end
 
     private
+
+    def set_next_position
+      self.position = siblings.maximum(:position) + 1
+    end
 
     def set_permalink
       self.permalink = name.parameterize if permalink.blank? && name.is_a?(String)

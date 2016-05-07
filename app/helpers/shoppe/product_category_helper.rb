@@ -11,6 +11,7 @@ module Shoppe
         ''.tap do |s|
           category.children.ordered.each do |child|
             s << '<tr>'
+            s << '<td class="handle">'
             s << '<td>'
             if child == current_category
               if link_to_current == false
