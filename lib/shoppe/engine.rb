@@ -7,6 +7,8 @@ module Shoppe
       config.assets.precompile += ['shoppe/sub.css', 'shoppe/printable.css']
     end
 
+    config.assets.paths << File.join(Shoppe.root, 'app', 'assets', 'fonts')
+
     # We don't want any automatic generators in the engine.
     config.generators do |g|
       g.orm             :active_record

@@ -4,12 +4,14 @@
 #= require shoppe/jquery_ui
 #= require shoppe/chosen.jquery
 #= require nifty/dialog
+#= require shoppe/editor
+#= require shoppe/marked
 #= require_tree .
 
 $ ->
   # Automatically focus all fields with the 'focus' class
   $('input.focus').focus()
-  
+
   # When clicking the order search button, toggle the form
   $('a[rel=searchOrders]').on 'click', ->
     $('div.orderSearch').toggle()
@@ -17,7 +19,7 @@ $ ->
   # When clicking the customer search button, toggle the form
   $('a[rel=searchCustomers]').on 'click', ->
     $('div.customerSearch').toggle()
-  
+
   # Add a new attribute to a table
   $('a[data-behavior=addAttributeToAttributesTable]').on 'click', ->
     table = $('table.productAttributes')
@@ -25,12 +27,12 @@ $ ->
       template = $('tr.template', table).html()
       table.append("<tr>#{template}</tr>")
     false
-  
+
   # Remove an attribute from a table
-  $('table.productAttributes tbody').on 'click', 'tr td.remove a', -> 
+  $('table.productAttributes tbody').on 'click', 'tr td.remove a', ->
     $(this).parents('tr').remove()
     false
-  
+
   # Sorting on the product attribtues table
   $('table.productAttributes tbody').sortable
     axis: 'y'
@@ -47,20 +49,20 @@ $ ->
     event.preventDefault();
     $('div.extraAttachments').show();
     $(this).hide();
-  
+
   # Chosen
   $('select.chosen').chosen()
   $('select.chosen-with-deselect').chosen({allow_single_deselect: true})
   $('select.chosen-basic').chosen({disable_search_threshold:100})
-  
+
   # Printables
   $('a[rel=print]').on 'click', ->
     window.open($(this).attr('href'), 'despatchnote', 'width=700,height=800')
     false
-    
+
   # Close dialog
   $('body').on 'click', 'a[rel=closeDialog]', Nifty.Dialog.closeTopDialog
-  
+
   # Open AJAX dialogs
   $('a[rel=dialog]').on 'click', ->
     element = $(this)
@@ -72,7 +74,7 @@ $ ->
     options.url = element.attr('href')
     Nifty.Dialog.open(options)
     false
-  
+
   # Format money values to 2 decimal places
   $('div.moneyInput input').each formatMoneyField
   $('body').on('blur', 'div.moneyInput input', formatMoneyField)
@@ -113,7 +115,7 @@ Nifty.Dialog.addBehavior
         success: (data)->
           $('div.table', dialog).replaceWith(data)
       false
-      
+
 #
 # Always fire keyboard shortcuts when focused on fields
 #
@@ -125,4 +127,3 @@ Mousetrap.stopCallback = -> false
 Mousetrap.bind 'escape', ->
   Nifty.Dialog.closeTopDialog()
   false
-  
