@@ -327,6 +327,7 @@ ru:
         unknown_format: "Неизвестный формат файла: %{filename}"
 
     orders:
+      export: Экспорт
       accept: Заказ
       accept_notice: Заказ успешно принят
       add_payment: Добавить платеж

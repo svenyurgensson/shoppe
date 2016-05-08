@@ -1,11 +1,24 @@
+# coding: utf-8
+require 'csv'
 module Shoppe
   class OrdersController < Shoppe::ApplicationController
     before_filter { @active_nav = :orders }
     before_filter { params[:id] && @order = Shoppe::Order.find(params[:id]) }
 
     def index
-      @query = Shoppe::Order.ordered.received.includes(order_items: :ordered_item).page(params[:page]).search(params[:q])
-      @orders = @query.result
+      respond_to do |format|
+        format.html do
+          @query = Shoppe::Order.ordered
+                   .received
+                   .includes(order_items: :ordered_item).page(params[:page])
+                   .search(params[:q])
+          @orders = @query.result
+          render
+        end
+        format.csv do
+          send_data orders_csv, filename: "orders-#{Date.today}.csv"
+        end
+      end
     end
 
     def new
@@ -106,6 +119,43 @@ module Shoppe
 
 
     private
+
+    def orders_csv
+      query = Shoppe::Order.ordered.received
+      result = CSV.generate(headers: true) do |csv|
+        csv << %w(дата номер статус клиент сумма платеж товар количество себестоимость цена)
+        query.each_with_index do |o, idx|
+          o.order_items.each do |i|
+            res = nil
+            if idx == 0
+              res = [
+                I18n.l(o.created_at, format: :long),
+                o.number,
+                I18n.t("shoppe.orders.statuses.#{o.status}"),
+                o.full_name,
+                o.total,
+                o.amount_paid,
+                i.ordered_item.full_name,
+                i.quantity,
+                i.total_cost,
+                i.total
+              ]
+            else
+              res = [
+                nil, nil, nil, nil, nil, nil,
+                i.ordered_item.full_name,
+                i.quantity,
+                i.total_cost,
+                i.total
+              ]
+            end
+            csv << res
+          end
+        end
+      end
+      result
+    end
+
 
     def safe_params
       params[:order].permit(
