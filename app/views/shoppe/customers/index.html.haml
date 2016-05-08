@@ -16,7 +16,6 @@
         %th= t('shoppe.customers.company')
         %th= t('shoppe.customers.email')
         %th= t('shoppe.customers.phone')
-        %th= t('shoppe.customers.mobile_phone')
     %tbody
       - if @customers.empty?
         %tr.empty
@@ -28,5 +27,4 @@
             %td= link_to customer.company, customer
             %td= customer.email
             %td= customer.phone
-            %td= customer.mobile
 = paginate @customers

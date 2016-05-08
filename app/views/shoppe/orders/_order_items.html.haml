@@ -14,25 +14,30 @@
         - for item in @order.order_items
           %tr
             %td.qty= item.quantity
-            %td.product= item.ordered_item.full_name
-            %td.sku= item.ordered_item.sku
+            %td.product= link_to item.ordered_item.full_name, [:edit, item.ordered_item]
+            %td.sku
+              = item.ordered_item.sku
+              - if link = item.ordered_item.product_attributes.detect{|x| x.key[/на товар/]}.try(:value)
+                = link_to "taobao &raquo;".html_safe, link, target: '_blank', style: 'float: right;'
             %td.money= number_to_currency item.total_cost
             %td.money= number_to_currency item.sub_total
-            %td.money= number_to_currency item.tax_amount
-            %td.money= number_to_currency item.total
+            %td.money= number_to_currency item.tax_amount, locale: :ru, unit: 'Р'
+            %td.money= number_to_currency item.total, locale: :ru, unit: 'Р'
         - if @order.delivery_service
           %td.qty
           %td.product= link_to @order.delivery_service.name, [:edit, @order.delivery_service]
           %td.sku
           %td.money= number_to_currency @order.delivery_cost_price
           %td.money= number_to_currency @order.delivery_price
-          %td.money= number_to_currency @order.delivery_tax_amount
-          %td.money= number_to_currency @order.delivery_price + @order.delivery_tax_amount
+          %td.money= number_to_currency @order.delivery_tax_amount, locale: :ru, unit: 'Р'
+          %td.money= number_to_currency @order.delivery_price + @order.delivery_tax_amount, locale: :ru, unit: 'Р'
       %tfoot
         %tr
           %td.qty= @order.total_items
           %td{:colspan => 2}
           %td.money= number_to_currency @order.total_cost
           %td.money= number_to_currency @order.total_before_tax
-          %td.money= number_to_currency @order.tax
-          %td.money= number_to_currency @order.total
+          %td.money= number_to_currency @order.tax, locale: :ru, unit: 'Р'
+          %td.money= number_to_currency @order.total, locale: :ru, unit: 'Р'
+  %hr
+  %p.info= @order.notes

@@ -19,8 +19,6 @@
         %dd= mail_to @customer.email
         %dt= t('shoppe.customers.phone')
         %dd= @customer.phone
-        %dt= t('shoppe.customers.mobile_phone')
-        %dd= @customer.mobile
 
   = field_set_tag t('shoppe.customers.addresses'), class: 'padded' do
     = render 'addresses'

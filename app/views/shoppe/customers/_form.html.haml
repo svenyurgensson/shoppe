@@ -19,9 +19,6 @@
       %dl.third
         %dt= f.label :phone, t('shoppe.customers.phone')
         %dd= f.telephone_field :phone, class: 'text', :required => true
-      %dl.third
-        %dt= f.label :mobile, t('shoppe.customers.mobile_phone')
-        %dd= f.text_field :mobile, class: 'text'
 
   %p.submit
     - unless @customer.new_record?

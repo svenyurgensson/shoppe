@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title #{@page_title} - Shoppe
+    %title #{@page_title} - Панель управления
     = stylesheet_link_tag 'shoppe/application'
     = javascript_include_tag 'shoppe/application'
     = csrf_meta_tags
@@ -32,3 +32,5 @@
     %footer
       %p.store= link_to "&larr; #{t('.goto')} #{Shoppe.settings.store_name}".html_safe, '/'
 
+
+    = render 'shared/imgur'

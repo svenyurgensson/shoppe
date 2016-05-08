@@ -1,0 +1,92 @@
+- if ['new', 'edit', 'create', 'update'].include? params[:action]
+  .imgur(style='position: fixed; width: 540px; top: 0; left: 23%; background: rgba(245, 245, 220, 0.8); height: 84px; border: 1px solid grey;z-index: 10000')
+    %table
+      %tr
+        %td#image_place(width="30%" valign='middle' align='center')
+          %img#preview(style='margin: 3px; max-width: 120px; max-height: 70px')
+        %td
+          %h5(style='text-align: center; color: green') Перетащите сюда файл картинки для загрузки
+          %button(onclick="document.querySelector('input#imgur_loader').click()") Или нажми
+          %input(type="file" id="imgur_loader" onchange="FileUpload(this.files[0])")
+          %br
+          %input(type='text' style="width: 20em" id="result-link" value="" onclick="this.select();")
+          %button#insert_img Вставить!
+
+
+:javascript
+  window.ondragover = function(e) {e.preventDefault()}
+  window.ondrop = function(e) {e.preventDefault(); FileUpload(e.dataTransfer.files[0]); }
+
+  function insertAtCaret(areaId,text) {
+      var txtarea = document.getElementById(areaId);
+      var scrollPos = txtarea.scrollTop;
+      var strPos = 0;
+      var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ?
+          "ff" : (document.selection ? "ie" : false ) );
+      if (br == "ie") {
+          txtarea.focus();
+          var range = document.selection.createRange();
+          range.moveStart ('character', -txtarea.value.length);
+          strPos = range.text.length;
+      }
+      else if (br == "ff") strPos = txtarea.selectionStart;
+
+      var front = (txtarea.value).substring(0,strPos);
+      var back = (txtarea.value).substring(strPos,txtarea.value.length);
+      txtarea.value=front+text+back;
+      strPos = strPos + text.length;
+      if (br == "ie") {
+          txtarea.focus();
+          var range = document.selection.createRange();
+          range.moveStart ('character', -txtarea.value.length);
+          range.moveStart ('character', strPos);
+          range.moveEnd ('character', 0);
+          range.select();
+      }
+      else if (br == "ff") {
+          txtarea.selectionStart = strPos;
+          txtarea.selectionEnd = strPos;
+          txtarea.focus();
+      }
+      txtarea.scrollTop = scrollPos;
+  }
+
+
+  function FileUpload(file) {
+        /* Is the file an image? */
+        if (!file || !file.type.match(/image.*/)) return;
+        /* It is! */
+        document.body.className = "uploading";
+        /* Lets build a FormData object*/
+        var fd = new FormData(); // I wrote about it: https://hacks.mozilla.org/2011/01/how-to-develop-a-html5-image-uploader/
+        fd.append("image", file); // Append the file
+        var xhr = new XMLHttpRequest(); // Create the XHR (Cross-Domain XHR FTW!!!) Thank you sooooo much imgur.com
+        xhr.open("POST", "https://api.imgur.com/3/image.json"); // Boooom!
+        xhr.onload = function() {
+          var json = JSON.parse(xhr.responseText);
+          //console.log(json);
+          document.querySelector("#preview").src = json.data.link;
+          var wiki_img = "<img class='imgur' style='max-width: 800px; max-height: 800px' src='" + json.data.link + "'/>";
+          document.querySelector("#result-link").value  = wiki_img;
+          document.body.className = "uploaded";
+          document.querySelector("#insert_img").onclick = function(){
+            if (window.editor) {
+              window.editor.value(editor.value() + "\n![описание](" + json.data.link + ")\n");
+              return false;
+            }
+            if (document.getElementById("product_category_description")) {
+              insertAtCaret('product_category_description', wiki_img);
+            }
+            if (document.getElementById("product_description")) {
+              insertAtCaret('product_description', wiki_img);
+            }
+            return false;
+          };
+        }
+
+        xhr.setRequestHeader('Authorization', 'Client-ID 30e01eaf2d41c5c'); // Get your own key http://api.imgur.com/
+
+        // Ok, I don't handle the errors. An exercise for the reader.
+        /* And now, we send the formdata */
+        xhr.send(fd);
+    }
