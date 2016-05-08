@@ -63,15 +63,15 @@
         var xhr = new XMLHttpRequest(); // Create the XHR (Cross-Domain XHR FTW!!!) Thank you sooooo much imgur.com
         xhr.open("POST", "https://api.imgur.com/3/image.json"); // Boooom!
         xhr.onload = function() {
-          var json = JSON.parse(xhr.responseText);
-          //console.log(json);
-          document.querySelector("#preview").src = json.data.link;
-          var wiki_img = "<img class='imgur' style='max-width: 800px; max-height: 800px' src='" + json.data.link + "'/>";
+          var json = JSON.parse(xhr.responseText),
+              link = json.data.link.replace(/http:/, '');
+          document.querySelector("#preview").src = link;
+          var wiki_img = "<img class='imgur' style='max-width: 800px; max-height: 800px' src='" + link + "'/>";
           document.querySelector("#result-link").value  = wiki_img;
           document.body.className = "uploaded";
           document.querySelector("#insert_img").onclick = function(){
             if (window.editor) {
-              window.editor.value(editor.value() + "\n![описание](" + json.data.link + ")\n");
+              window.editor.value(editor.value() + "\n![описание](" + link + ")\n");
               return false;
             }
             if (document.getElementById("product_category_description")) {
