@@ -8,6 +8,9 @@ module Shoppe
     end
 
     config.assets.paths << File.join(Shoppe.root, 'app', 'assets', 'fonts')
+    config.assets.precompile += ['shoppe/icomoon.eot',
+                                 'shoppe/icomoon.ttf',
+                                 'shoppe/icomoon.woff']
 
     # We don't want any automatic generators in the engine.
     config.generators do |g|
