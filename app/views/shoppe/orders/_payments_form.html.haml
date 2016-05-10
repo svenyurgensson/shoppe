@@ -1,10 +1,10 @@
 = form_for [@order, Shoppe::Payment.new(:amount => @order.balance)] do |f|
   %dl.text
     %dt= f.label :method, t('shoppe.orders.method')
-    %dd= f.text_field :method, :class => 'text', required: true
+    %dd= f.text_field :method, :class => 'text', required: true, list: 'payments'
   %dl.text
     %dt= f.label :reference, t('shoppe.orders.reference')
-    %dd= f.text_field :reference, :class => 'text', required: true
+    %dd= f.text_field :reference, :class => 'text', required: true, list: 'reference'
   %dl.amount
     %dt= f.label :amount, t('shoppe.orders.amount')
     %dd
@@ -13,3 +13,12 @@
         = f.text_field :amount, :class => 'text', required: true
   %dl.submit
     %dd= f.submit t('shoppe.orders.add_payment') , :class => 'button green'
+
+
+%datalist#payments
+  %option Наличный платеж
+  %option Бесплатно
+
+
+%datalist#reference
+  %option Оплата при вручении

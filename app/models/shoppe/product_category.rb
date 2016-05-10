@@ -70,7 +70,7 @@ module Shoppe
     private
 
     def set_next_position
-      self.position = siblings.maximum(:position) + 1
+      self.position = (siblings.maximum(:position) || -1) + 1
     end
 
     def set_permalink
