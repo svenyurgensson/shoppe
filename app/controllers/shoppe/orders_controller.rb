@@ -8,10 +8,14 @@ module Shoppe
     def index
       respond_to do |format|
         format.html do
-          @query = Shoppe::Order.ordered
-                   .received
-                   .includes(order_items: :ordered_item).page(params[:page])
-                   .search(params[:q])
+          @query =
+            Shoppe::Order
+            .ordered
+            .received
+            .includes(:customer, :delivery_service)
+            .includes(order_items: :ordered_item)
+            .page(params[:page])
+            .search(params[:q])
           @orders = @query.result
           render
         end

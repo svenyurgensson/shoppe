@@ -18,6 +18,7 @@ Shoppe::Engine.routes.draw do
     collection do
       get :import
       post :import
+      put :positions
     end
   end
   resources :orders do

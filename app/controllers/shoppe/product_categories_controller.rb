@@ -4,9 +4,11 @@ module Shoppe
     before_filter { params[:id] && @product_category = Shoppe::ProductCategory.find(params[:id]) }
 
     def index
-      @product_categories_without_parent = Shoppe::ProductCategory
-                                           .without_parent
-                                           .order(position: :asc)
+      @product_categories_without_parent =
+        Shoppe::ProductCategory
+        .includes(:translations, :children)
+        .without_parent
+        .order(position: :asc)
     end
 
     def new

@@ -8,6 +8,12 @@ module Shoppe
       content_tag :span, t("shoppe.orders.statuses.#{status}"), class: "status-tag #{status}"
     end
 
+    def markdown(text)
+      return '' if text.blank?
+      markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true)
+      markdown.render(text).html_safe
+    end
+
     def attachment_preview(attachment, options = {})
       if attachment.present? && attachment.token.present?
         ''.tap do |s|

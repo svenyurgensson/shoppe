@@ -1,15 +1,20 @@
 module Shoppe
   class ProductsController < Shoppe::ApplicationController
     before_filter { @active_nav = :products }
-    before_filter { params[:id] && @product = Shoppe::Product.root.find(params[:id]) }
+    before_filter do
+      params[:id] && @product = Shoppe::Product.root.find(params[:id])
+    end
 
     def index
       @products_paged = Shoppe::Product.root
-                                       .includes(:translations, :stock_level_adjustments, :product_categories, :variants)
-                                       .order(:name)
+                        .includes(:translations, :stock_level_adjustments, :product_categories, :variants)
+
       if params[:category_id].present?
         @products_paged = @products_paged
                           .where('shoppe_product_categorizations.product_category_id = ?', params[:category_id])
+                          .references(:product_categorizations)
+
+
       end
 
       case
@@ -17,7 +22,8 @@ module Shoppe
         @products_paged = @products_paged
                           .with_translations(I18n.locale)
                           .page(params[:page])
-                          .ransack(sku_cont_all: params[:sku].split).result
+                          .ransack(sku_cont_all: params[:sku].split)
+                          .result
       when params[:name]
         @products_paged = @products_paged
                           .with_translations(I18n.locale)
@@ -29,7 +35,6 @@ module Shoppe
       end
 
       @products_paged.per(params[:per_page] || Kaminari.config.default_per_page)
-
 
       @products = @products_paged
                   .group_by(&:product_category)
@@ -73,6 +78,16 @@ module Shoppe
           Shoppe::Product.import(params[:import][:import_file])
           redirect_to products_path, flash: { notice: t('shoppe.products.imports.success') }
         end
+      end
+    end
+
+    def positions
+      params[:positions].each_with_index do |pid, idx|
+        id = pid.sub(/\D+/, '').to_i
+        Shoppe::Product.find(id).update_column(:position, idx)
+      end
+      respond_to do |format|
+        format.json { render json: '{}' }
       end
     end
 

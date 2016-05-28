@@ -17,6 +17,10 @@ $ ->
     connectWith: 'tbody'
     items: 'tr[data-scope="root"]'
     axis: 'y'
+    helper: (e, ui) ->
+      ui.children().each ()->
+        $(this).width($(this).width())
+      ui
     update: (ev, ui) ->
       positions = $(this).sortable 'toArray'
       postPositions positions
@@ -33,6 +37,10 @@ $ ->
       # connectWith: parent
       items: id
       axis: 'y'
+      helper: (e, ui) ->
+        ui.children().each ()->
+          $(this).width($(this).width())
+        ui
       update: (ev, ui) ->
         positions = $(this).sortable 'toArray'
         postPositions positions
