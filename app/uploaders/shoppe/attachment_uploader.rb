@@ -2,7 +2,6 @@
 
 class Shoppe::AttachmentUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
-  include CarrierWave::BombShelter
 
   # Where should files be stored?
   def store_dir
