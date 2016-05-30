@@ -13,8 +13,6 @@ module Shoppe
         @products_paged = @products_paged
                           .where('shoppe_product_categorizations.product_category_id = ?', params[:category_id])
                           .references(:product_categorizations)
-
-
       end
 
       case
@@ -34,11 +32,12 @@ module Shoppe
         @products_paged = @products_paged.page(params[:page])
       end
 
-      if params[:category_id].present?
-        @products_paged = @products_paged.per(200)
-      else
-        @products_paged = @products_paged.per(params[:per_page] || Kaminari.config.default_per_page)
-      end
+      @products_paged =
+        if params[:category_id].present?
+          @products_paged.per(200)
+        else
+          @products_paged.per(params[:per_page] || Kaminari.config.default_per_page)
+        end
 
       @products = @products_paged
                   .group_by(&:product_category)
