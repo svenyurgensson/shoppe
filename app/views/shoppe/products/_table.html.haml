@@ -28,7 +28,7 @@
             %th{:colspan => 4}= link_to category.hierarchy_names.join('/'), "?category_id=#{category.id}"
           %tr
             %td{:colspan => 4}
-              %table.data{data: {scope: 'root'}, id: "cat_#{category.id}"}
+              %table.data.internal{data: {scope: 'root'}, id: "cat_#{category.id}"}
                 - for product in products.sort_by(&:position)
                   %tr{'data-scope'=>"cat_#{category.id}", 'date-position' => product.position, id: "prod_#{product.id}" }
                     %td.handle{width: '1%'}

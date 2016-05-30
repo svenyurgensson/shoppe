@@ -610,11 +610,9 @@ table.data {
         top: 560px;
         max-width: 200px;
     }
-    tr {
-        img.image-on-fixed-position { display: none; }
-    }
-    tr:hover {
-        img.image-on-fixed-position { display: block; }
+    .internal {
+        tr { img.image-on-fixed-position { display: none; } }
+        tr:hover { img.image-on-fixed-position { display: block; } }
     }
 }
 
