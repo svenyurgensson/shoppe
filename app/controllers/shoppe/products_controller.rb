@@ -34,7 +34,11 @@ module Shoppe
         @products_paged = @products_paged.page(params[:page])
       end
 
-      @products_paged.per(params[:per_page] || Kaminari.config.default_per_page)
+      if params[:category_id].present?
+        @products_paged = @products_paged.per(200)
+      else
+        @products_paged = @products_paged.per(params[:per_page] || Kaminari.config.default_per_page)
+      end
 
       @products = @products_paged
                   .group_by(&:product_category)
