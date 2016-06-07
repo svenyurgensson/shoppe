@@ -4,7 +4,11 @@ module Shoppe
     validate { errors.add :base, :can_belong_to_root if parent && parent.parent }
 
     # Variants of the product
-    has_many :variants, class_name: 'Shoppe::Product', foreign_key: 'parent_id', dependent: :destroy
+    has_many :variants,
+             -> { order(:position) },
+             class_name: 'Shoppe::Product',
+             foreign_key: 'parent_id',
+             dependent: :destroy
 
     # The parent product (only applies to variants)
     belongs_to :parent, class_name: 'Shoppe::Product', foreign_key: 'parent_id'
@@ -45,5 +49,19 @@ module Shoppe
     def variant?
       !parent_id.blank?
     end
+
+    def min_max_price
+      return [price, price] unless has_variants?
+
+      [variants.minimum(:price), variants.maximum(:price)]
+    end
+
+    def min_max_price_variants
+      return [self, self] unless has_variants?
+
+      [variants.includes(:tax_rate).order('price ASC').first,
+       variants.includes(:tax_rate).order('price DESC').first]
+    end
+
   end
 end

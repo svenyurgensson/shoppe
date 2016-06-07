@@ -13,7 +13,11 @@ Shoppe::Engine.routes.draw do
     end
   end
   resources :products do
-    resources :variants
+    resources :variants do
+      collection do
+        put :positions
+      end
+    end
     resources :localisations, controller: 'product_localisations'
     collection do
       get :import

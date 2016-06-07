@@ -39,6 +39,16 @@ module Shoppe
       redirect_to [@product, :variants], notice: t('shoppe.variants.destroy_notice')
     end
 
+    def positions
+      params[:positions].each_with_index do |pid, idx|
+        id = pid.sub(/\D+/, '').to_i
+        Shoppe::Product.find(id).update_column(:position, idx)
+      end
+      respond_to do |format|
+        format.json { render json: '{}' }
+      end
+    end
+
     private
 
     def safe_params

@@ -8,9 +8,10 @@
   %h2.products= t('shoppe.variants.variants_of', product: @product.name)
 
 .table
-  %table.data
+  %table.data{role: 'products', data: {scope: 'root'}, id: "cat_#{@product.product_category.id}"}
     %thead
       %tr
+        %th{:width => '1%'}
         %th{:width => '20%'}= t('shoppe.variants.sku')
         %th{:width => '50%'}= t('shoppe.variants.name')
         %th{:width => '15%'}= t('shoppe.variants.price')
@@ -18,10 +19,11 @@
     %tbody
       - if @variants.empty?
         %tr.empty
-          %td{:colspan => 4}= t('shoppe.variants.no_products')
+          %td{:colspan => 5}= t('shoppe.variants.no_products')
       - else
         - for variant in @variants
-          %tr
+          %tr{'data-scope'=>"cat_#{@product.product_category.id}", 'date-position' => variant.position, id: "prod_#{variant.id}" }
+            %td.handle{width: '1%'}
             %td= variant.sku
             %td= link_to variant.name, edit_product_variant_path(@product, variant)
             %td= number_to_currency variant.price
