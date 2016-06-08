@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'bcrypt', '>= 3.1.2', '< 3.2'
   s.add_dependency 'ransack', '>= 1.2.0', '< 1.6.3'
   s.add_dependency 'kaminari', '>= 0.14.1', '< 0.17'
-  #s.add_dependency 'haml', '>= 4.0', '< 5.0'
   s.add_dependency 'hamlit', '~> 2.0'
   s.add_dependency 'dynamic_form', '~> 1.1', '>= 1.1.4'
   s.add_dependency 'jquery-rails', '>= 3', '< 4.1'
@@ -29,8 +28,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'nifty-key-value-store', '>= 1.0.1', '< 2.0.0'
   s.add_dependency 'nifty-utils', '>= 1.0', '< 1.1'
   s.add_dependency 'nifty-dialog', '>= 1.0.7', '< 1.1'
-  s.add_dependency 'carrierwave', '~> 0.10.0'
-  s.add_dependency 'fog', '~> 1.36.0'
+  s.add_dependency 'carrierwave', '~> 0.11.0'
+  #s.add_dependency 'fog', '~> 1.36.0'
   s.add_dependency 'net-ssh', '~> 3.0.1'
   s.add_dependency 'mini_magick', '~> 4.2.7'
 
