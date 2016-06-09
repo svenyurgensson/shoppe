@@ -16,12 +16,29 @@ module Shoppe
     # All customers ordered by their ID desending
     scope :ordered, -> { order(id: :desc) }
 
+    BUSINESS_ACC = [:type, :org_inn, :org_kpp, :jur_index, :jur_region,
+                    :jur_city, :jur_address, :org_bank,
+                    :ip_name, :ip_inn, :ip_index, :ip_region, :ip_city, :ip_address,
+                    :del_index, :del_region, :del_city, :del_address].freeze
+
+    attr_accessor *BUSINESS_ACC
+    attr_accessor :password
+
     # The name of the customer in the format of "Company (First Last)" or if they don't have
     # company specified, just "First Last".
     #
     # @return [String]
     def name
       company.blank? ? full_name : "#{company} (#{full_name})"
+    end
+
+    def details(key)
+      (business_details || {})[key.to_s]
+    end
+
+    def profile_fulfilled?
+      business_details && business_details.is_a?(Hash) &&
+        business_details['type'] && business_details['del_index'].present?
     end
 
     # The full name of the customer created by concatinting the first & last name
