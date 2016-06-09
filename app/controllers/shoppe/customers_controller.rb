@@ -18,7 +18,7 @@ module Shoppe
     end
 
     def create
-      @customer = Shoppe::Customer.new(safe_params)
+      @customer = Shoppe::Customer.new(normalized_customer_params)
       if @customer.save
         redirect_to @customer, flash: { notice: t('shoppe.customers.created_successfully') }
       else
@@ -27,7 +27,7 @@ module Shoppe
     end
 
     def update
-      if @customer.update(safe_params)
+      if @customer.update(normalized_customer_params)
         redirect_to @customer, flash: { notice: t('shoppe.customers.updated_successfully') }
       else
         render action: 'edit'
@@ -46,8 +46,33 @@ module Shoppe
 
     private
 
-    def safe_params
-      params[:customer].permit(:first_name, :last_name, :company, :email, :phone, :mobile, :business_details)
+    def normalized_customer_params
+      pr = safe_customer_params
+      bd = pr.slice(*Shoppe::Customer::BUSINESS_ACC)
+      {
+        first_name: pr[:first_name],
+        last_name: pr[:last_name],
+        email: pr[:email],
+        phone: pr[:phone],
+        password: pr[:password],
+        company: pr[:company],
+        business_details: bd
+      }
+    end
+
+    def safe_customer_params
+      permitted = [
+        :first_name,
+        :last_name,
+        :email,
+        :phone,
+        :password,
+        :password_confirmation,
+        :company,
+        :business_details
+      ] + Shoppe::Customer::BUSINESS_ACC
+
+      params[:customer].permit(*permitted)
     end
   end
 end

@@ -1,0 +1,53 @@
+.margin
+  %h4 Индивидуальный Предприниматель:
+  %p для формирования счета и товарной накладной нам необходимы ваши реквизиты, заполните их пожалуйста
+%br
+= f.hidden_field :type, value: 'ip'
+
+.splitContainer
+  %dl.half
+    %dt= f.label :company, 'Название'
+    %dd= f.text_field :company, value: customer.company, class: 'text', require: true
+  %dl.half
+    %dt= f.label :ip_inn, 'ИНН'
+    %dd= f.text_field :ip_inn, value: customer.details('ip_inn'), required: true, class: 'text'
+
+%br
+.margin
+  %h4 Адрес регистрации
+  %br
+
+.splitContainer
+  %dl.half
+    %dt= f.label :jur_index, 'Индекс'
+    %dd= f.text_field :jur_index, value: customer.details('jur_index'), required: true, class: 'text'
+  %dl.half
+    %dt= f.label :jur_region, 'Регион'
+    %dd= f.text_field :jur_region, value: customer.details('jur_region'), required: true, class: 'text'
+.splitContainer
+  %dl.half
+    %dt= f.label :jur_city, 'Город или район'
+    %dd= f.text_field :jur_city, value: customer.details('jur_city'), required: true, class: 'text'
+  %dl.half
+    %dt= f.label :jur_address, 'Улица. дом, офис/квартира'
+    %dd= f.text_field :jur_address, value: customer.details('jur_address'), required: true, class: 'text'
+
+%br
+.margin
+  %h4 Адрес доставки
+  %br
+
+.splitContainer
+  %dl.half
+    %dt= f.label :del_index, 'Индекс'
+    %dd= f.text_field :del_index, value: customer.details('del_index'), required: true, class: 'text'
+  %dl.half
+    %dt= f.label :del_region, 'Регион'
+    %dd= f.text_field :del_region, value: customer.details('del_region'), required: true, class: 'text'
+.splitContainer
+  %dl.half
+    %dt= f.label :del_city, 'Город или район'
+    %dd= f.text_field :del_city, value: customer.details('del_city'), required: true, class: 'text'
+  %dl.half
+    %dt= f.label :del_address, 'Улица. дом, офис/квартира'
+    %dd= f.text_field :del_address, value: customer.details('del_address'), required: true, class: 'text'

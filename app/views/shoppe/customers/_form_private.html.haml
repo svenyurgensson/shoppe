@@ -1,0 +1,23 @@
+.margin
+  %h4 Частное лицо
+%br
+= f.hidden_field :type, value: 'private'
+%br
+.margin
+  %h4 Адрес доставки
+  %br
+
+.splitContainer
+  %dl.half
+    %dt= f.label :del_index, 'Индекс'
+    %dd= f.text_field :del_index, value: customer.details('del_index'), required: true, class: 'text'
+  %dl.half
+    %dt= f.label :del_region, 'Регион'
+    %dd= f.text_field :del_region, value: customer.details('del_region'), required: true, class: 'text'
+.splitContainer
+  %dl.half
+    %dt= f.label :del_city, 'Город или район'
+    %dd= f.text_field :del_city, value: customer.details('del_city'), required: true, class: 'text'
+  %dl.half
+    %dt= f.label :del_address, 'Улица. дом, офис/квартира'
+    %dd= f.text_field :del_address, value: customer.details('del_address'), required: true, class: 'text'

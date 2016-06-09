@@ -19,9 +19,15 @@
       %dl.third
         %dt= f.label :phone, t('shoppe.customers.phone')
         %dd= f.telephone_field :phone, class: 'text', :required => true
-      %dl.third
-        %dt= f.label :business_details, 'Реквизиты'
-        %dd= f.text_area :business_details, rows: 7, class: 'text'
+
+  = field_set_tag 'Реквизиты клиента' do
+    - type = @customer.details('type') || 'private'
+    - if type == 'private'
+      = render 'form_private', f: f, type: type, customer: @customer
+    - if type == 'org'
+      = render 'form_org', f: f, type: type, customer: @customer
+    - if type == 'ip'
+      = render 'form_ip', f: f, type: type, customer: @customer
 
   %p.submit
     - unless @customer.new_record?
