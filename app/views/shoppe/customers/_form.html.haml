@@ -19,6 +19,9 @@
       %dl.third
         %dt= f.label :phone, t('shoppe.customers.phone')
         %dd= f.telephone_field :phone, class: 'text', :required => true
+      %dl.third
+        %dt= f.label :business_details, 'Реквизиты'
+        %dd= f.text_area :business_details, rows: 7, class: 'text'
 
   %p.submit
     - unless @customer.new_record?
