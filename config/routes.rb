@@ -35,6 +35,7 @@ Shoppe::Engine.routes.draw do
       post :ship
       get :despatch_note
       post :checkout
+      get :xls
     end
     resources :payments, only: [:create, :destroy] do
       match :refund, on: :member, via: [:get, :post]

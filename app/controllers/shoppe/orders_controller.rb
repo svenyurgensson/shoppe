@@ -121,6 +121,14 @@ module Shoppe
       redirect_to @order
     end
 
+    def xls
+      created = I18n.l(@order.created_at, format: :short).gsub(/[,.'"]/,'').gsub(/\s+/, '-')
+      headers['Content-Type'] = 'application/vnd.ms-excel'
+      headers['Content-Disposition'] = "attachment; filename=\"заказ_#{@order.number}_#{created}.xls\""
+      headers['Cache-Control'] = ''
+
+      render :xls, layout: false
+    end
 
     private
 

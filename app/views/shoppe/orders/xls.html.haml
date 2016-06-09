@@ -1,0 +1,24 @@
+%meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
+
+%table
+  %thead
+    %th Наименование
+    %th Ед. изм.
+    %th Кол-во
+    %th Цена
+    %th Сумма
+  %tr
+  - @order.order_items.each do |item|
+    %tr
+      %td= item.ordered_item.full_name
+      %td шт.
+      %td= item.quantity
+      %td= (item.total / item.quantity).round(2)
+      %td= item.total
+  - if @order.delivery_service
+    %tr
+      %td Доставка #{@order.delivery_service.name}
+      %td
+      %td 1
+      %td= @order.delivery_price + @order.delivery_tax_amount
+      %td= @order.delivery_price + @order.delivery_tax_amount

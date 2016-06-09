@@ -2,6 +2,7 @@
 
 = content_for :header do
   %p.buttons
+    = link_to 'Экспорт XLS', [:xls, @order], :class => 'button'
     = link_to t('shoppe.edit'), [:edit, @order], :class => 'button'
     - if @order.accepted?
       = link_to t('shoppe.orders.despatch_note.despatch_note'), [:despatch_note, @order], :class => 'button', :rel => 'print'
