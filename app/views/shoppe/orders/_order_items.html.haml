@@ -10,15 +10,27 @@
           %th.money= t('shoppe.orders.price')
           %th.money= Shoppe.settings.tax_name
           %th.money= t('shoppe.orders.sub_total')
-      %tbody
+      %tbody.internal
         - for item in @order.order_items
           %tr
             %td.qty= item.quantity
-            %td.product= link_to item.ordered_item.full_name, [:edit, item.ordered_item]
+            %td.product
+              - if item.ordered_item.variant?
+                = link_to item.ordered_item.full_name, edit_product_variant_path(item.ordered_item.parent, item.ordered_item)
+                - if item.ordered_item.parent.default_image
+                  = image_tag item.ordered_item.parent.default_image.file.thumb.url, class: 'image-on-fixed-position'
+              - else
+                = link_to item.ordered_item.full_name, [:edit, item.ordered_item]
+                - if item.ordered_item.default_image
+                  = image_tag item.ordered_item.default_image.file.thumb.url, class: 'image-on-fixed-position'
             %td.sku
               = item.ordered_item.sku
-              - if link = item.ordered_item.product_attributes.detect{|x| x.key[/на товар/]}.try(:value)
-                = link_to "taobao &raquo;".html_safe, link, target: '_blank', style: 'float: right;'
+              - if item.ordered_item.variant?
+                - if link = item.ordered_item.parent.product_attributes.detect { |x| x.key[/на товар/] }.try(:value)
+                  = link_to "taobao &raquo;".html_safe, link, target: '_blank', style: 'float: right;'
+              - else
+                - if link = item.ordered_item.product_attributes.detect{|x| x.key[/на товар/]}.try(:value)
+                  = link_to "taobao &raquo;".html_safe, link, target: '_blank', style: 'float: right;'
             %td.money= number_to_currency item.total_cost
             %td.money= number_to_currency item.sub_total
             %td.money= number_to_currency item.tax_amount, locale: :ru, unit: 'Р'
