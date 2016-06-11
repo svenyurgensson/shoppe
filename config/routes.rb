@@ -60,5 +60,8 @@ Shoppe::Engine.routes.draw do
   post 'login/reset' => 'password_resets#create'
 
   delete 'logout' => 'sessions#destroy'
+
+  get 'reset' => 'dashboard#reset', as: :reset_cache
+
   root to: 'dashboard#home'
 end

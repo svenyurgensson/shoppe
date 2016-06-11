@@ -20,6 +20,8 @@
           %li= navigation_manager_link item
 
         %li= link_to t('.logout'), [:logout], :method => :delete
+        %li &nbsp;
+        %li= link_to 'Сбросить кеш', reset_cache_path
 
     %header.main
       = yield :header
