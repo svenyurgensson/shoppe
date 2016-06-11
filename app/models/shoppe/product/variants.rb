@@ -5,7 +5,7 @@ module Shoppe
 
     # Variants of the product
     has_many :variants,
-             -> { order(:position) },
+             -> { order(position: :asc) },
              class_name: 'Shoppe::Product',
              foreign_key: 'parent_id',
              dependent: :destroy

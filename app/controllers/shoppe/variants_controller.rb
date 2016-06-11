@@ -5,7 +5,7 @@ module Shoppe
     before_filter { params[:id] && @variant = @product.variants.find(params[:id]) }
 
     def index
-      @variants = @product.variants.ordered
+      @variants = @product.variants
     end
 
     def new
