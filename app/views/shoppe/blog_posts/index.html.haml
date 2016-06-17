@@ -1,0 +1,33 @@
+- @page_title = t('shoppe.post.posts')
+
+= content_for :header do
+  %p.buttons
+    = link_to t('shoppe.post.new_post'), :new_blog_post, class: 'button green'
+  %h2.products= t('shoppe.post.posts')
+
+.table
+  %table.data
+    %thead
+      %tr
+        %th{width: '20%'}= t('shoppe.post.data')
+        %th{width: '2%'}= t('shoppe.post.is_published')
+        %th{width: '40%'}= t('shoppe.post.title')
+    %tbody
+      - if @posts.empty?
+        %tr.empty
+          %td{colspan: 3}= t('shoppe.post.no_posts')
+      - else
+        - @posts.each do |post|
+          %tr
+            %td= I18n.l(post.published_at, format: :long)
+            %td.center
+              - if post.published?
+                = check_box_tag :published, 'yes', true, disabled: :disabled
+              - else
+                = check_box_tag :published, 'no', false, disabled: :disabled
+            %td
+              = post.title
+              %span.float-right= link_to 'edit', edit_blog_post_path(post), class: 'edit'
+
+
+= paginate @posts

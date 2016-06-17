@@ -40,6 +40,9 @@ ru:
       shoppe/user:
         one: Пользователь
         other: Пользователи
+      shoppe/post:
+        one: Запись блога
+        other: Записи блога
 
     attributes:
       shoppe/order:
@@ -472,6 +475,25 @@ ru:
         no_children: Без дочерних категорий
         hierarchy: Иерархия
 
+    post:
+      posts: Все блог-записи
+      form: Редактирование блог-записи
+      title: Заголовок записи
+      back_to_posts: К списку блог-записей
+      no_posts: Нет блог-записей
+      new_post: Новая блог-запись
+      permalink: постоянная ссылка (создастся автоматически)
+      published: Публиковать? (дата публикации)
+      raw_content: Текст записи
+      body_hint: "Чтобы разделить запись на 'введение' и 'главная часть' вставьте между частями такую строчку: '<!--more-->'"
+      delete_confirmation: Действительно хотите удалить эту запись?
+      create_notice: Создали новую блог-запись!
+      update_notice: Обновили блог-запись!
+      destroy_notice: Удалили блог-запись
+      data: Дата
+      is_published: Опубликован?
+      tags: Тэги для публикации
+      tags_hint: ключевые слова, разделенные запятыми
     products:
       add_attachments: Посмотреть/добавить файлы
       add_attribute: Добавить параметр
@@ -738,6 +760,7 @@ ru:
         users: Пользователи
         countries: Страны
         settings: Настройки
+      posts: Записи блога
 
     settings:
 

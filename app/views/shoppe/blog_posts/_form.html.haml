@@ -1,0 +1,50 @@
+= form_for @post do |f|
+  = f.error_messages
+
+  = field_set_tag t('shoppe.post.form') do
+    .splitContainer
+      %dl.half
+        %dt= f.label :title, t('shoppe.post.title')
+        %dd= f.text_field :title, class: 'focus text', required: true
+        %dt= f.label :permalink, t('shoppe.post.permalink')
+        %dd= f.text_field :permalink, class: 'text'
+        %dt= f.label :published, t('shoppe.post.published')
+        %dd
+          = f.check_box :published
+          &nbsp;
+          - if @post.published_at
+            = I18n.l @post.published_at, format: :long
+      %dl.half
+        %dt= f.label :tags_string, t('shoppe.post.tags')
+        %dd
+          - tags = Shoppe::Blog::Tag.all.map{|x| "'#{x.name}'" }.join(', ')
+          = f.text_field :tags_string, class: 'focus text tagator', 'data-tagator-autocomplete' => "[#{tags}]", 'data-tagator-show-all-options-on-focus' => 'true'
+          %p.help= t('shoppe.post.tags_hint')
+
+
+    %dl.cleared
+
+    %dl.cleared
+      %dt= f.label :raw_content, t('shoppe.post.raw_content')
+      %dd
+        = f.text_area :raw_content, :class => 'text', style: 'height: 500px'
+        %p.help= t('shoppe.post.body_hint')
+
+
+
+
+
+  %p.submit
+    - unless @post.new_record?
+      %span.right= link_to t('shoppe.delete'), [@post], class: 'button purple', method: :delete, data: {confirm: t('shoppe.post.delete_confirmation') }
+    = f.submit t('shoppe.submit'), class: 'button green'
+
+
+
+:javascript
+  window.onload = function() {
+      window.editor = new Editor({
+        element: document.getElementById('blog_post_raw_content'),
+
+      });
+  }

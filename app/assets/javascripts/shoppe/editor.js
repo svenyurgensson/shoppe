@@ -7141,7 +7141,9 @@ var toolbar = [
   {name: 'image', action: drawImage},
   '|',
 
-  {name: 'info', action: 'http://lab.lepture.com/editor/markdown'},
+  //{name: 'info', action: 'http://lab.lepture.com/editor/markdown'},
+  {name: 'info', action: 'http://ydmitry.ru/blog/rukovodstvo-po-markdown-dlya-uproshcheniya-veb-razrabotki/'},
+
   {name: 'preview', action: togglePreview},
   {name: 'fullscreen', action: toggleFullScreen}
 ];

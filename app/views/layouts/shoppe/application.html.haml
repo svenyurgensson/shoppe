@@ -19,6 +19,7 @@
         - for item in Shoppe::NavigationManager.find(:admin_primary).items
           %li= navigation_manager_link item
 
+        %li= link_to t('shoppe.post.posts'), blog_posts_path
         %li= link_to t('.logout'), [:logout], :method => :delete
         %li &nbsp;
         %li= link_to 'Сбросить кеш', reset_cache_path

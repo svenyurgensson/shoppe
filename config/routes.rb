@@ -6,6 +6,10 @@ Shoppe::Engine.routes.draw do
     resources :addresses
   end
 
+  resources :blog_posts, except: %w(show)
+  post  '/posts/preview' => 'posts#preview', as: :post_preview
+  patch '/posts/preview' => 'posts#preview'
+
   resources :product_categories do
     resources :localisations, controller: 'product_category_localisations'
     collection do

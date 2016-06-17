@@ -5,6 +5,7 @@
  *= require nifty/dialog
  *= require shoppe/dialog
  *= require shoppe/editor
+ *= require shoppe/fm.tagator.jquery
  *= require_self
  */
 
@@ -141,7 +142,12 @@ header.main {
         padding-top:15px;
         padding-bottom:25px;
         margin-bottom:15px;
-        legend {color:#5B6270; margin:0 25px; font-weight:300; font-size:1.5em;}
+        legend {
+            color:#5B6270; margin:0 25px; font-weight:300; font-size:1.5em;
+            border: 1px solid #ececec;
+            padding: 4px 8px;
+            background-color: white;
+        }
         &.padded { padding:15px 25px 25px 25px;}
         &.padded legend { margin:0;}
     }
@@ -579,6 +585,7 @@ table.data {
     a { color:inherit;}
     tbody th { text-align:left; background:#5B6270; border:1px solid #5B6270;font-size:1.2em; color:#fff;}
     tbody tr.empty td { padding:50px 0; text-align:center; color:#999; font-style:italic;}
+    tbody td.center { text-align:center; }
     tfoot td.right { text-align:right; }
     tfoot td.bold { font-weight:bold;}
     tfoot td { border-top:0 solid #ccc; background:#fafafa;}

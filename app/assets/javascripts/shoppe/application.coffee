@@ -6,11 +6,15 @@
 #= require nifty/dialog
 #= require shoppe/editor
 #= require shoppe/marked
+#= require shoppe/fm.tagator.jquery.min
 #= require_tree .
 
 $ ->
   # Automatically focus all fields with the 'focus' class
   $('input.focus').focus()
+
+  # Tags
+  $('.tagator').tagator()
 
   # When clicking the order search button, toggle the form
   $('a[rel=searchOrders]').on 'click', ->

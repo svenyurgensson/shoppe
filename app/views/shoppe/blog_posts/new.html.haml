@@ -1,0 +1,6 @@
+- @page_title = t('shoppe.post.form')
+= content_for :header do
+  %p.buttons= link_to t('shoppe.post.back_to_posts'), :blog_posts, class: 'button'
+  %h2.products= t('shoppe.post.edit')
+
+= render 'form'

@@ -74,6 +74,9 @@
               window.editor.value(editor.value() + "\n![описание](" + link + ")\n");
               return false;
             }
+            if (document.getElementById("blog_post_raw_content")) {
+              insertAtCaret('blog_post_raw_content', wiki_img);
+            }
             if (document.getElementById("product_category_description")) {
               insertAtCaret('product_category_description', wiki_img);
             }
