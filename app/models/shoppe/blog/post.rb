@@ -109,6 +109,8 @@ class Shoppe::Blog::Post < ActiveRecord::Base
     regexp = /<img[^>]+src=["']([^"']*)/
     if img_tag = (html_content || '').match(regexp)
       self.meta_image = img_tag[1]
+    else
+      self.meta_image = nil
     end
   end
 end
