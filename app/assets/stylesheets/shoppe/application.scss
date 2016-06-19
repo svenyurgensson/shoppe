@@ -653,3 +653,13 @@ td.handle {
     background-size:16px;
     cursor: pointer;
 }
+
+// Product-issues
+
+.product-issues {
+    ul {
+        columns: 3;
+        -webkit-columns: 3;
+        -moz-columns: 3;
+    }
+}

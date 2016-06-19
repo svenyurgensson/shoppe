@@ -1,0 +1,47 @@
+- @page_title = t('shoppe.products.products')
+
+= content_for :header do
+  %p.buttons
+    = link_to t('shoppe.products.back_to_products') , :products, class: 'button'
+  %h2.products= t('shoppe.products.issues.issues')
+
+= form_tag nil, class: 'product-issues' do
+  = field_set_tag  t('shoppe.products.issues.issues') do
+
+    - if @issues_original.any?
+      %dl
+        %dt #{t('shoppe.products.issues.no_original_img')} (#{@issues_original.count}):
+        %dt
+          %ul
+            - @issues_original.each do |product|
+              %li= link_to truncate(product.name, length: 40), [:edit, product]
+
+    - if @issues_large.any?
+      %dl
+        %dt #{t('shoppe.products.issues.no_large_img')} (#{@issues_large.count}):
+        %dt
+          %ul
+            - @issues_large.each do |product|
+              %li= link_to truncate(product.name, length: 40), [:edit, product]
+
+
+    - if @issues_thumb.any?
+      %dl
+        %dt  #{t('shoppe.products.issues.no_thumb_img')} (#{@issues_thumb.count}):
+        %dt
+          %ul
+            - @issues_thumb.each do |product|
+              %li= link_to truncate(product.name, length: 40), [:edit, product]
+
+
+    - if @stock_zero.any?
+      %hr
+      %dl
+        %dt  #{t('shoppe.products.issues.stock_zero')} (#{@stock_zero.length}):
+        %dt
+          %ul
+            - @stock_zero.each do |product|
+              - if product.parent_id
+                %li= link_to truncate(product.name, length: 40), edit_product_variant_path(product.parent, product)
+              - else
+                %li= link_to truncate(product.name, length: 40), [:edit, product]

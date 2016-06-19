@@ -95,6 +95,40 @@ module Shoppe
       Rails.cache.clear
     end
 
+    def issues
+      @issues_original = []
+      @issues_large = []
+      @issues_thumb = []
+
+      Shoppe::Attachment.
+        includes(:parent => [:translations]).
+        where(role: 'default_image', parent_type: 'Shoppe::Product').
+        find_each do  |img|
+
+        if ! File.readable? img.file.path
+          @issues_original << img.parent # product
+        end
+
+        if ! File.readable? img.file.large.path
+          @issues_large << img.parent # product
+        end
+
+        if ! File.readable? img.file.thumb.path
+          @issues_thumb << img.parent # product
+        end
+      end
+
+      @stock_zero =
+        Shoppe::Product.
+        active.
+        includes(:translations, :variants).
+        joins(:stock_level_adjustments).
+        group('shoppe_products.id').
+        having('sum(adjustment) = 0')
+
+      render
+    end
+
     private
 
     def safe_params

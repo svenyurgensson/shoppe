@@ -540,6 +540,13 @@ ru:
       update_notice: Товар успешно обновлен
       website_properties: Характеристики на сайте
       weight: Вес
+      issues:
+        issues: Проблемные товары
+        no_original_img: Товары без главных картинок
+        no_large_img: Товары без больших картинок
+        no_thumb_img: Товары без миниатюрных картинок
+        stock_zero: Товара нет на складе
+
 
       filter:
         sku: фильтр по артикулу
