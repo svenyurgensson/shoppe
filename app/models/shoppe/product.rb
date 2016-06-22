@@ -37,6 +37,8 @@ module Shoppe
     # Stock level adjustments for this product
     has_many :stock_level_adjustments, dependent: :destroy, class_name: 'Shoppe::StockLevelAdjustment', as: :item
 
+    accepts_nested_attributes_for :stock_level_adjustments, reject_if: :all_blank
+
     # Validations
     with_options if: proc { |p| p.parent.nil? } do |product|
       product.validate :has_at_least_one_product_category

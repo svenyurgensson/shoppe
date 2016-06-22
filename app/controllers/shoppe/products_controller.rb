@@ -46,6 +46,7 @@ module Shoppe
 
     def new
       @product = Shoppe::Product.new
+      @product.stock_level_adjustments.build
     end
 
     def create
@@ -139,7 +140,8 @@ module Shoppe
                               :featured, :in_the_box,
                               attachments: [default_image: file_params, data_sheet: file_params, extra: file_params],
                               product_attributes_array: [:key, :value, :searchable, :public, :value => []],
-                              product_category_ids: []
+                              product_category_ids: [],
+                              stock_level_adjustments_attributes: [:description, :adjustment]
                              )
     end
   end

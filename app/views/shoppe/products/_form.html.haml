@@ -133,6 +133,19 @@
             = f.check_box :stock_control
             = f.label :stock_control, t('shoppe.products.enable_stock_control?')
 
+      - if @product.new_record?
+        = f.fields_for :stock_level_adjustments do |sla|
+          .margin
+            %table.data
+              %thead
+                %tr
+                  %th{:width => '50%'}= t('shoppe.stock_level_adjustments.description')
+                  %th{:width => '25%'}= t('shoppe.stock_level_adjustments.adjustment')
+                %tbody
+                  %tr.form
+                    %td.desc= sla.text_field :description, value: "На складе от #{I18n.l(Date.today, format: '%Y-%d')}"
+                    %td.adjustment= sla.text_field :adjustment
+
   = field_set_tag  t('shoppe.products.website_properties') do
     .splitContainer
       %dl.half
