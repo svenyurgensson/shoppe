@@ -1,0 +1,26 @@
+- @page_title = t('shoppe.customers.customers')
+
+= content_for :header do
+  %p.buttons= link_to t('shoppe.customers.back_to_customers_list'), :customers, class: 'button'
+  %h2.users
+    = t('shoppe.customers.registered')
+    &nbsp; (#{Shoppe::Customer.count})
+
+
+= form_for :registered, method: :get do
+  %fieldset
+    .margin
+      = date_field_tag :from, params[:from], placeholder: 'с даты: 2016-02-01'
+      = date_field_tag :to, params[:to], placeholder: 'по дату: 2016-03-01'
+      = submit_tag t('shoppe.customers.registered'), class: 'button green'
+    %br
+
+    - @customers.each do |k,v|
+      %dl
+        %dt
+          = k
+          &nbsp;(#{v.count})
+        %dt
+          %ul
+            - v.each do |customer|
+              %li= link_to customer.full_name, customer

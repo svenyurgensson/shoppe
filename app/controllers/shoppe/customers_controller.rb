@@ -44,7 +44,27 @@ module Shoppe
       render action: 'index'
     end
 
+    def registered
+      customers = Shoppe::Customer.
+                  where(['created_at BETWEEN ? AND ?', from, to]).
+                  order('created_at asc')
+      @customers = customers.group_by {|x| I18n.l(x.created_at, format: '%Y, %b') }
+      render
+    end
+
     private
+
+    def from
+      Date.parse(params[:from])
+    rescue
+      Date.today - 10.years
+    end
+
+    def to
+      Date.parse(params[:to])
+    rescue
+      Date.tomorrow
+    end
 
     def normalized_customer_params
       pr = safe_customer_params

@@ -721,6 +721,8 @@ ru:
       customers: Клиенты
       new_customer: Новый клиент
       search_customer: Поиск клиента
+      registered: Регистрации клиентов
+      reset: Сброс
       name: Имя
       company: Компания
       email: E-mail

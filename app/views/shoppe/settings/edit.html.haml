@@ -16,7 +16,8 @@
               %p.help= v
 
       %dl.sided
-        %dt Текст в заголовке распечатки заказа
+        %dt
+          %label Текст в заголовке распечатки заказа
         %dd
           = text_area :settings, :print_header, rows: 6, cols: 140, class: 'text', height: '240px', value: Shoppe.settings['print_header']
           %p.help текст, который будет размещаться в заголовке распечатки заказа, например данные по магазину, адрес и так далее
