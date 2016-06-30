@@ -59,8 +59,8 @@ module Shoppe
     def min_max_price_variants
       return [self, self] unless has_variants?
 
-      [variants.includes(:tax_rate).order('price ASC').first,
-       variants.includes(:tax_rate).order('price DESC').first]
+      [variants.includes(:tax_rate).reorder('price ASC').first,
+       variants.includes(:tax_rate).reorder('price DESC').first]
     end
 
   end
