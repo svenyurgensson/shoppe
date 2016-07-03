@@ -71,7 +71,8 @@
           document.body.className = "uploaded";
           document.querySelector("#insert_img").onclick = function(){
             if (window.editor) {
-              window.editor.value(editor.value() + "\n![описание](" + link + ")\n");
+              var maybeName = $('input[type=text][name*=name]').val() || 'описание';
+              window.editor.value(editor.value() + "\n![" + maybeName + "](" + link + ")\n");
               return false;
             }
             if (document.getElementById("blog_post_raw_content")) {
