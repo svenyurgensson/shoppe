@@ -55,7 +55,7 @@ module Shoppe
       # Load default navigation
       require 'shoppe/default_navigation'
 
-      require 'shoppe/friendly_id'
+      require 'shoppe/friendly_id_init'
     end
 
     generators do

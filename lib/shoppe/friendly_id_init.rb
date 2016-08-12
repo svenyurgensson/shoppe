@@ -1,4 +1,4 @@
-require "friendly_id"
+require 'friendly_id'
 # FriendlyId Global Configuration
 #
 # Use this to set up shared configuration options for your entire application.
@@ -39,7 +39,7 @@ FriendlyId.defaults do |config|
   # performance because it will avoid Rails-internal code that makes runtime
   # calls to `Module.extend`.
   #
-  #config.use :finders
+  config.use :finders
   #
   # ## Slugs
   #
@@ -47,6 +47,7 @@ FriendlyId.defaults do |config|
   # to do so, uncomment the following line.
   #
   config.use :slugged
+  config.use :history
   #
   # By default, FriendlyId's :slugged addon expects the slug column to be named
   # 'slug', but you can change it if you wish.

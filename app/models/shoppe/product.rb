@@ -3,7 +3,7 @@ require 'globalize'
 
 module Shoppe
   class Product < ActiveRecord::Base
-    include FriendlyId
+    include ::FriendlyId
 
     self.table_name = 'shoppe_products'
 
@@ -54,7 +54,7 @@ module Shoppe
 
     # Before validation, set the permalink if we don't already have one
     #before_validation { self.permalink = name.parameterize if permalink.blank? && name.is_a?(String) }
-    friendly_id :slug_candidates, :use => [:slugged, :finders, :history]
+    friendly_id :slug_candidates, use: [:history, :slugged, :finders]
 
     # All active products
     scope :active, -> { where(active: true) }
@@ -65,7 +65,6 @@ module Shoppe
     # Localisations
     translates :name, :permalink, :description, :short_description
     scope :ordered, -> { includes(:translations).order(:name) }
-
 
     def slug_candidates
       [
