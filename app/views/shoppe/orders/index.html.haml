@@ -28,7 +28,10 @@
       - else
         - for order in @orders
           %tr
-            %td= link_to order.number, order
+            %td
+              = link_to order.number, order
+              %br
+              %code{title: "Дата оплаты заказа: #{I18n.l(order.received_at, format: :long)}"}= I18n.l order.received_at, format: "%d/%m/%Y"
             %td= link_to order.customer_name, order.customer
             %td
               = status_tag order.status
