@@ -46,7 +46,7 @@
       = form_tag [:ship, @order] do
         %dl.form
           %dt.padding= label_tag 'consignment_number', t('shoppe.orders.consignment_number')
-          %dd= text_field_tag 'consignment_number', '', :class => 'text'
+          %dd= text_field_tag 'consignment_number', '', :class => 'text', required: true
         %dl.form
           %dd= submit_tag t('shoppe.orders.mark_as_shipped') , :class => 'button green button-mini'
 
