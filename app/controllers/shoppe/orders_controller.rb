@@ -89,8 +89,17 @@ module Shoppe
     end
 
     def search
-      index
-      render action: 'index'
+      @query =
+        Shoppe::Order
+          .ordered
+          .received
+          .includes(:customer, :delivery_service)
+          .includes(order_items: :ordered_item)
+          .page(params[:page])
+          .search(params[:q])
+      @orders = @query.result
+
+      render :index
     end
 
     def accept
