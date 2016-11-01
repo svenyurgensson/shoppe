@@ -10,7 +10,7 @@ module Shoppe
         format.html do
           @query =
             Shoppe::Order
-            .ordered
+            .by_received
             .received
             .includes(:customer, :delivery_service)
             .includes(order_items: :ordered_item)
@@ -91,7 +91,7 @@ module Shoppe
     def search
       @query =
         Shoppe::Order
-          .ordered
+          .by_received
           .received
           .includes(:customer, :delivery_service)
           .includes(order_items: :ordered_item)

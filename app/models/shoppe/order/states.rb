@@ -28,6 +28,8 @@ module Shoppe
     # All ordered ordered by their ID desending
     scope :ordered, -> { order(id: :desc) }
 
+    scope :by_received, -> { order(received_at: :desc) }
+
     # Is this order still being built by the user?
     #
     # @return [Boolean]
